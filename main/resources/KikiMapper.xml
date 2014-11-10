@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ValdacBeta.dao.KikiMapper">
+    <select id="findAllKiki" resultType="Kiki">
+        select * from kiki
+    </select>
+
+    <select id="findKikiById" parameterType="int" resultType="Kiki">
+        select * from kiki where kikiId=#{kikiId}
+    </select>
+
+    <select id="findTenKiki" resultType="Kiki">
+        select * from kiki order by kikiId desc limit 10;
+    </select>
+
+    <insert id="insertKiki" parameterType="Kiki">
+        insert into
+                kiki(kikiBunrui, kikiBunruiSeq, kikiNo, kikiMei, syukan, makerRyaku, maker, katasikiNo, serialNo, orderNo, bikou, imageId, trkDate, updDate)
+         values(
+                #{kikiBunrui},
+                #{kikiBunruiSeq},
+                #{kikiNo},
+                #{kikiMei},
+                #{syukan},
+                #{makerRyaku},
+                #{maker},
+                #{katasikiNo},
+                #{serialNo},
+                #{orderNo},
+                #{bikou},
+                #{imageId},
+                #{trkDate},
+                #{updDate}
+                )
+    </insert>
+
+    <update id="updateKikiByKiki" parameterType="Kiki">
+        update kiki
+        set
+          kikiBunrui=#{kikiBunrui},
+          kikiBunruiSeq=#{kikiBunruiSeq},
+          kikiNo=#{kikiNo},
+          kikiMei=#{kikiMei},
+          syukan=#{syukan},
+          makerRyaku=#{makerRyaku},
+          maker=#{maker},
+          katasikiNo=#{katasikiNo},
+          serialNo=#{serialNo},
+          orderNo=#{orderNo},
+          bikou=#{bikou},
+          imageId=#{imageId},
+          updDate=#{updDate}
+        where kikiId=#{kikiId}
+    </update>
+
+    <select id="getLastInsertId" resultType="int">
+        select kikiId from kiki ORDER BY kikiId DESC limit 1
+    </select>
+
+    <delete id="deleteKikiByKikiId" parameterType="int">
+        DELETE ksl.*,k.*,b.*
+        FROM kikisystemrelation ksl
+		LEFT JOIN kiki k ON ksl.kikiId=k.kikiId
+		LEFT JOIN buhin b ON ksl.buhinid=b.buhinId
+		WHERE ksl.kikiid=#{kikiId}
+    </delete>
+
+    <select id="findKikiBySysId" parameterType="int" resultType="Kiki">
+        SELECT DISTINCT kiki.kikiId, kikiBunrui, kikiBunruiSeq, kikiNo, kikiMei, syukan, makerRyaku, maker, katasikiNo, serialNo,orderNo, bikou, imageId, trkDate, updDate
+        FROM kiki, kikisystemrelation
+        WHERE kikisystemrelation.kikisysid=#{kikiSysId}
+        AND kikisystemrelation.kikiid=kiki.kikiId
+    </select>
+
+</mapper>

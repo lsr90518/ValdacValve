@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ValdacBeta.dao.ValveMapper">
+
+    <select id="findAllValve" resultType="Valve">
+      select * from kikisystem
+    </select>
+
+    <select id="findValveByKikiSysId" parameterType="int" resultType="Valve">
+      select * from kikisystem where kikiSysId=#{kikiSysId}
+    </select>
+
+    <select id="getLastInsertId" resultType="int">
+        select kikiSysId from kikisystem ORDER BY kikiSysId DESC limit 1
+    </select>
+
+    <select id="findTenValves" resultType="Valve">
+        select * from kikisystem order by kikiSysId desc limit 10
+    </select>
+
+    <insert id="insertValve" parameterType="Valve">
+        insert into kikisystem(kCode, kikiSysSeq , vNo, vNoSub, benMeisyo, keisikiRyaku, keisiki, sousaRyaku, sousa, classRyaku, classType, yobikeiRyaku, yobikei, szHouRyaku, szHou, szKikaku, zaisituRyaku, zaisitu, aturyokuMax, tani, ondoMax, ryutaiRyaku, ryutai, ics, futai, trkDate, updDate)
+        values(
+        #{kCode},
+        #{kikiSysSeq},
+        #{vNo},
+        #{vNoSub},
+        #{benMeisyo},
+        #{keisikiRyaku},
+        #{keisiki},
+        #{sousaRyaku},
+        #{sousa},
+        #{classRyaku},
+        #{classType},
+        #{yobikeiRyaku},
+        #{yobikei},
+        #{szHouRyaku},
+        #{szHou},
+        #{szKikaku},
+        #{zaisituRyaku},
+        #{zaisitu},
+        #{aturyokuMax},
+        #{tani},
+        #{ondoMax},
+        #{ryutaiRyaku},
+        #{ryutai},
+        #{ics},
+        #{futai},
+        #{trkDate},
+        #{updDate}
+        )
+    </insert>
+
+    <update id="updateValveByValve" parameterType="Valve">
+        update kikisystem
+        set vNo = #{vNo},
+            vNoSub = #{vNoSub},
+            benMeisyo = #{benMeisyo},
+            keisikiRyaku = #{keisikiRyaku},
+            keisiki = #{keisiki},
+            sousaRyaku = #{sousaRyaku},
+            sousa = #{sousa},
+            classRyaku = #{classRyaku},
+            classType = #{classType},
+            yobikeiRyaku = #{yobikeiRyaku},
+            yobikei = #{yobikei},
+            szHouRyaku = #{szHouRyaku},
+            szHou = #{szHou},
+            szKikaku = #{szKikaku},
+            zaisituRyaku = #{zaisituRyaku},
+            zaisitu = #{zaisitu},
+            aturyokuMax = #{aturyokuMax},
+            tani = #{tani},
+            ondoMax = #{ondoMax},
+            ryutaiRyaku = #{ryutaiRyaku},
+            ryutai = #{ryutai},
+            ics = #{ics},
+            futai = #{futai},
+            updDate = #{updDate}
+        where kikiSysId = #{kikiSysId}
+    </update>
+
+    <delete id="deleteKikiSystemByKikiSysId" parameterType="int" >
+        DELETE ks.*,ksl.*,k.*,b.*
+        FROM kikisystemrelation ksl
+		LEFT JOIN kikisystem ks ON ksl.kikisysid=ks.kikiSysId
+		LEFT JOIN kiki k ON ksl.kikiId=k.kikiId
+		LEFT JOIN buhin b ON ksl.buhinid=b.buhinId
+		WHERE ksl.kikisysid=#{kikiSysId}
+    </delete>
+
+    <select id="findLastUpdateTenValves" resultType="Valve">
+        SELECT * FROM kikisystem ORDER BY updDate DESC limit 10;
+    </select>
+
+    <select id="findLastTenValves" resultType="Valve">
+        SELECT * FROM kikisystem ORDER BY trkDate DESC limit 10;
+    </select>
+
+    <update id="updateValveDateById" parameterType="Valve">
+        UPDATE kikisystem
+        SET updDate = #{updDate}
+        WHERE kikiSysId=#{kikiSysId}
+    </update>
+
+</mapper>

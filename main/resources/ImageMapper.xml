@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ValdacBeta.dao.ImageMapper">
+
+    <insert id="insertImageByObject" parameterType="string">
+        INSERT INTO image(imagename) VALUE (#{object})
+    </insert>
+
+    <insert id="addImageByImage" parameterType="Image">
+        INSERT
+        INTO image(imagesyu, kaiteino, imagename, papersize, trkDate, bikou)
+        VALUES (#{imagesyu}, #{kaiteino}, #{imagename}, #{papersize}, #{trkDate}, #{bikou})
+    </insert>
+    
+    <select id="findIdByObject" parameterType="string" resultType="int">
+        SELECT id FROM image WHERE imagename=#{object}
+    </select>
+
+    <update id="updateSyuByImagename" parameterType="Image">
+        UPDATE image SET imagesyu=#{imagesyu} WHERE imagename=#{imagename}
+    </update>
+
+    <delete id="deleteImageByImagename" parameterType="string">
+        DELETE FROM image where imagename=#{object}
+    </delete>
+
+    <select id="findImagesByKikiId" parameterType="string" resultType="Image">
+        SELECT i.id,i.imagesyu,i.page,i.kaiteino,i.imagename,i.papersize,i.trkDate,i.bikou
+        FROM image i
+		LEFT JOIN imagepart ip ON i.imagename=ip.imagename
+		WHERE ip.partid=#{kikiId}
+    </select>
+
+    <select id="findImagesByBuhinId" parameterType="string" resultType="Image">
+        SELECT i.id,i.imagesyu,i.page,i.kaiteino,i.imagename,i.papersize,i.trkDate,i.bikou
+        FROM image i
+		LEFT JOIN imagepart ip ON i.imagename=ip.imagename
+		WHERE ip.partid=#{buhinId}
+    </select>
+
+    <update id="updateBikouByObject" parameterType="Image">
+        UPDATE image
+        SET bikou=#{bikou}
+        WHERE imagename=#{imagename}
+    </update>
+
+    <select id="findBikouByObject" parameterType="string" resultType="string">
+        SELECT bikou FROM image WHERE imagename=#{imagename}
+    </select>
+
+</mapper>

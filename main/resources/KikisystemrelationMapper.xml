@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ValdacBeta.dao.KikisystemrelationMapper">
+    <select id="findAllRelation" resultType="Kikisystemrelation">
+        select * from kikisystemrelation
+    </select>
+
+    <select id="findKikiIdsByKikiSysId" parameterType="int" resultType="int">
+        select kikiid from kikisystemrelation where kikisysid=#{kikiSysId}
+    </select>
+
+    <select id="findBuhinIdsByKikiSysId" parameterType="int" resultType="int">
+        select buhinid from kikisystemrelation where kikisysid=#{kikiSysId}
+    </select>
+
+    <select id="findAllByKikiSysId" parameterType="int" resultType="KikiSystemrelation">
+        select * from kikisystemrelation where kikisysid=#{kikiSysId}
+    </select>
+
+    <select id="findkikiSysIdByKikiId" parameterType="int" resultType="int">
+        SELECT DISTINCT kikisysid FROM kikisystemrelation WHERE kikiid=#{kikiid};
+    </select>
+
+    <select id="findItemByBuhinid" parameterType="int" resultType="KikiSystemrelation">
+        SELECT * FROM kikisystemrelation WHERE buhinid=#{buhinid}
+    </select>
+
+    <insert id="insertKikiSysId" parameterType="int">
+        INSERT INTO kikisystemrelation(kikisysid) VALUES (#{kikiSysId});
+    </insert>
+
+    <insert id="insertValveKiki" parameterType="int">
+        INSERT INTO kikisystemrelation(kikisysid, kikiid) values (#{kikiSysId},#{kikiId});
+    </insert>
+
+    <insert id="insertRecord" parameterType="Kikisystemrelation">
+        INSERT INTO kikisystemrelation(kikisysid, kikiid, buhinid) values (#{kikisysid},#{kikiid},#{buhinid});
+    </insert>
+
+</mapper>
